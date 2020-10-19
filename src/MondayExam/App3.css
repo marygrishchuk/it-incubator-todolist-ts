@@ -1,0 +1,53 @@
+.App3 {
+    padding: 5px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: darkslategrey;
+    width: 180px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.counter {
+    display: block;
+    width: 170px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding-top: 20px;
+    background-color: white;
+    margin: 10px auto;
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.counter-stop {
+    display: block;
+    width: 170px;
+    height: 50px;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding-top: 20px;
+    background-color: white;
+    margin: 10px auto;
+    color: red;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.btnBlock {
+    width: 160px;
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px auto
+}
+
+.btn {
+    display: inline-block;
+    margin: 5px;
+    width: 70px;
+    font-size: larger;
+    font-weight: bold;
+    border-radius: 5px;
+}
