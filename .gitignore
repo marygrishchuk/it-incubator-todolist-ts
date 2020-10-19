@@ -25,3 +25,7 @@ yarn-error.log*
 /.idea
 /.yarn
 .yarnrc
+
+src/MondayExam
+src/TodolistExperiment
+src/.idea
