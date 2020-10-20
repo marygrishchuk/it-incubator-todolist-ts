@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {v1} from "uuid";
+import {AddItemForm} from "./AddItemForm";
 
 export type TaskType = {
     id: string
@@ -22,15 +23,7 @@ export type TasksStateType = {
 
 export type FilterValuesType = "all" | "completed" | "active";
 
-function App() {   //этот стейт нам уже не нужен (вместо него сделаем 2)
-                   // const [tasks, setTasks] = useState<Array<TaskType>>([
-                   //     {id: v1(), title: "HTML", isDone: true},
-                   //     {id: v1(), title: "CSS", isDone: true},
-                   //     {id: v1(), title: "JS", isDone: false},
-                   //     {id: v1(), title: "Redux", isDone: false},
-                   //     {id: v1(), title: "Rest API", isDone: false}
-                   // ]);
-
+function App() {
     const todoListId1 = v1()
     const todoListId2 = v1()
 
@@ -51,8 +44,6 @@ function App() {   //этот стейт нам уже не нужен (вмес
             {id: v1(), title: "Fish", isDone: false}
         ],
     })
-
-    // console.log(tasks[todoListId1][0].title)  // в консоли будет HTML
 
     function addTask(title: string, todoListId: string) {
         const newTask: TaskType = {id: v1(), title: title, isDone: false};
@@ -75,18 +66,15 @@ function App() {   //этот стейт нам уже не нужен (вмес
         }
         setTasks({...tasks})
     }
-//Альтернатива с .map:
-    // function changeTaskStatus(taskId: string, isDone: boolean, todoListId: string) {
-    //     const todoList = tasks[todoListId]
-    //     let newTodoList = todoList.map(t => {
-    //         if (t.id === taskId) {
-    //             return {...t, isDone: isDone}
-    //         }
-    //         return t
-    //     })
-    //     tasks[todoListId] = newTodoList
-    //     setTasks({...tasks})
-    // }
+
+    function changeTaskTitle(taskId: string, title: string, todoListId: string) {
+        const todoList = tasks[todoListId]
+        const task = todoList.find(t => t.id === taskId)
+        if (task) {
+            task.title = title
+        }
+        setTasks({...tasks})
+    }
 
     function changeFilter(value: FilterValuesType, todoListId: string) {
         const todoList = todoLists.find(tl => tl.id === todoListId)
@@ -103,8 +91,28 @@ function App() {   //этот стейт нам уже не нужен (вмес
         setTasks({...tasks}) //перерисовка после удаления тасок удаленного тодолиста необязательна!
     }
 
+    function addTodoList(title: string) {
+        const newTodoListID = v1()
+        const newTodoList: TodoListType = {
+            id: newTodoListID, title: title, filter: "all"
+        }
+        setTodoLists([newTodoList, ...todoLists])
+        setTasks({
+            ...tasks, [newTodoListID]: []
+        })
+    }  //добавляем и сам тодолист (в начало), и массив для его тасок!
+
+    function changeTodoListTitle(todoListId: string, title: string) {
+        const todoList = todoLists.find(tl => tl.id === todoListId)
+        if (todoList) {
+            todoList.title = title
+            setTodoLists([...todoLists])
+        }
+    }
+
     return (
         <div className="App">
+            <AddItemForm addItem={addTodoList}/>
             {
                 todoLists.map(tl => {
 
@@ -126,8 +134,10 @@ function App() {   //этот стейт нам уже не нужен (вмес
                             removeTask={removeTask}
                             changeFilter={changeFilter}
                             changeTaskStatus={changeTaskStatus}
+                            changeTaskTitle={changeTaskTitle}
                             filter={tl.filter}  //нельзя просто filter, т.к. не будет меняться стиль кнопок фильтра
                             removeTodoList={removeTodoList}
+                            changeTodoListTitle={changeTodoListTitle}
                         />
                     )
                 })
