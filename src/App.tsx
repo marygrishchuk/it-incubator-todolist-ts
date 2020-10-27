@@ -3,6 +3,8 @@ import './App.css';
 import {TodoList} from "./TodoList";
 import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
+import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {Menu} from "@material-ui/icons";
 
 export type TaskType = {
     id: string
@@ -82,13 +84,12 @@ function App() {
             todoList.filter = value
             setTodoLists([...todoLists])
         }
-        // setFilter(value);
     }
-    
+
     function removeTodoList(todoListId: string) {
         setTodoLists(todoLists.filter(tl => tl.id !== todoListId))
         delete tasks[todoListId]
-        setTasks({...tasks}) //перерисовка после удаления тасок удаленного тодолиста необязательна!
+        setTasks({...tasks})
     }
 
     function addTodoList(title: string) {
@@ -100,7 +101,7 @@ function App() {
         setTasks({
             ...tasks, [newTodoListID]: []
         })
-    }  //добавляем и сам тодолист (в начало), и массив для его тасок!
+    }
 
     function changeTodoListTitle(todoListId: string, title: string) {
         const todoList = todoLists.find(tl => tl.id === todoListId)
@@ -112,37 +113,57 @@ function App() {
 
     return (
         <div className="App">
-            <AddItemForm addItem={addTodoList}/>
-            {
-                todoLists.map(tl => {
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" color="inherit" aria-label="menu">
+                        <Menu/>
+                    </IconButton>
+                    <Typography variant="h6">
+                        News
+                    </Typography>
+                    <Button color="inherit">Login</Button>
+                </Toolbar>
+            </AppBar>
+            <Container fixed>
+                <Grid container style={{padding: "15px"}}>
+                    <AddItemForm addItem={addTodoList}/>
+                </Grid>
+                <Grid container spacing={4}>
+                    {
+                        todoLists.map(tl => {
 
-                    let tasksForToDoList = tasks[tl.id];   //вариант для "all". И "tl.id" = todoListId1 либо todoListId2 (он же - Массив)
-                    if (tl.filter === "completed") {   //вариант для "completed"
-                        tasksForToDoList = tasksForToDoList.filter(t => t.isDone === true)
+                            let tasksForToDoList = tasks[tl.id];
+                            if (tl.filter === "completed") {
+                                tasksForToDoList = tasksForToDoList.filter(t => t.isDone === true)
+                            }
+                            if (tl.filter === "active") {
+                                tasksForToDoList = tasksForToDoList.filter(t => t.isDone === false)
+                            }
+
+                            return (
+                                <Grid item>
+                                    <Paper elevation={5} style={{padding: "15px"}}>
+                                        <TodoList
+                                            key={tl.id}
+                                            id={tl.id}
+                                            title={tl.title}
+                                            tasks={tasksForToDoList}
+                                            addTask={addTask}
+                                            removeTask={removeTask}
+                                            changeFilter={changeFilter}
+                                            changeTaskStatus={changeTaskStatus}
+                                            changeTaskTitle={changeTaskTitle}
+                                            filter={tl.filter}
+                                            removeTodoList={removeTodoList}
+                                            changeTodoListTitle={changeTodoListTitle}
+                                        />
+                                    </Paper>
+                                </Grid>
+                            )
+                        })
                     }
-                    if (tl.filter === "active") {      //вариант для "active"
-                        tasksForToDoList = tasksForToDoList.filter(t => t.isDone === false)
-                    }
-
-                    return (
-                        <TodoList
-                            key={tl.id}   //"tl.id" = todoListId1 либо todoListId2 (он же - Массив)
-                            id={tl.id}    //"tl.id" = todoListId1 либо todoListId2 (он же - Массив)
-                            title={tl.title}
-                            tasks={tasksForToDoList}
-                            addTask={addTask}
-                            removeTask={removeTask}
-                            changeFilter={changeFilter}
-                            changeTaskStatus={changeTaskStatus}
-                            changeTaskTitle={changeTaskTitle}
-                            filter={tl.filter}  //нельзя просто filter, т.к. не будет меняться стиль кнопок фильтра
-                            removeTodoList={removeTodoList}
-                            changeTodoListTitle={changeTodoListTitle}
-                        />
-                    )
-                })
-            }
-
+                </Grid>
+            </Container>
         </div>
     );
 }
