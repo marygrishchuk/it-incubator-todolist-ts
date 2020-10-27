@@ -76,7 +76,7 @@ export function TodoList(props: PropsType) {
             </ul>
             <div>
                 <Button
-                    style={{margin: "3px", backgroundColor: "red"}}
+                    style={{margin: "3px"}}
                     size={"small"}
                     variant={props.filter === "all" ? "contained" : "outlined"}
                     color={"primary"}
