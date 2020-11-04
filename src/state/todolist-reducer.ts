@@ -63,7 +63,7 @@ export const removeTodoListAC = (todoListId: string): RemoveTodolistActionType =
 //we will make server requests from action creators!
 
 export const addTodoListAC = (todoListTitle: string, todoListId:string): AddTodolistActionType => {
-    return {type: 'ADD-TODOLIST', title: todoListTitle, todoListId} //creating an ID for the new todolist right here
+    return {type: 'ADD-TODOLIST', title: todoListTitle, todoListId} //NEVER create IDs for new todolists in ActionCreators!
 }
 
 export const changeTodoListTitleAC = (todoListId: string, title: string): ChangeTodolistTitleActionType => {
