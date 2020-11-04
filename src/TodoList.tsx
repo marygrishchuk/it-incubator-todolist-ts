@@ -44,6 +44,8 @@ export function TodoList(props: PropsType) {
         props.changeFilter('completed', props.id)
     }
 
+    debugger
+
     const tasks = props.tasks.map(t => {
 
             const onRemoveTaskClick = () => {
