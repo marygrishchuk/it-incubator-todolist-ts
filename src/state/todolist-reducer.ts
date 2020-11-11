@@ -29,7 +29,6 @@ export const todoListReducer = (state: Array<TodoListType>, action: ActionType):
             return state.filter(tl => tl.id !== action.id)  //filter creates new array
             //To delete the tasks of the removed todoList, tasks-reducer.ts is used
         case 'ADD-TODOLIST':
-            debugger
             const newTodoList: TodoListType = {
                 id: action.todoListId, title: action.title, filter: "all"
             }

@@ -2,33 +2,11 @@ import {TasksStateType, TaskType} from "../App";
 import {v1} from "uuid";
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
 
-export type RemoveTaskACType = {
-    type: "REMOVE_TASK"
-    taskId: string
-    todoListId: string
-}
-export type AddTaskACType = {
-    type: "ADD_TASK"
-    title: string
-    todoListId: string
-}
-
-export type ChangeTaskStatusACType = {
-    type: "CHANGE_TASK_STATUS"
-    taskId: string
-    isDone: boolean
-    todoListId: string
-}
-
-export type ChangeTaskTitleACType = {
-    type: "CHANGE_TASK_TITLE"
-    taskId: string
-    title: string
-    todoListId: string
-}
-
-export type ActionType = RemoveTaskACType | AddTaskACType | ChangeTaskStatusACType
-    | ChangeTaskTitleACType | AddTodolistActionType | RemoveTodolistActionType
+export type ActionType = ReturnType<typeof removeTaskAC> |
+    ReturnType<typeof addTaskAC> |
+    ReturnType<typeof changeTaskStatusAC> |
+    ReturnType<typeof changeTaskTitleAC> |
+    AddTodolistActionType | RemoveTodolistActionType
 
 export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
     switch (action.type) {
@@ -60,7 +38,6 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
             }
             return state
         case 'ADD-TODOLIST':
-            debugger
             return {...state, [action.todoListId]: []}
         case 'REMOVE-TODOLIST': {
             const stateCopy = {...state}
@@ -74,19 +51,19 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
 }
 //if we add empty cases there will be a TypeScript error: Object (inside test file) is possibly undefined.
 
-export const removeTaskAC = (taskId: string, todoListId: string): RemoveTaskACType => {
-    return {type: 'REMOVE_TASK', taskId, todoListId}  //if key = value, no need to write both 'todoListId: todoListId'
+export const removeTaskAC = (taskId: string, todoListId: string) => {
+    return {type: 'REMOVE_TASK', taskId, todoListId} as const  //if key = value, no need to write both 'todoListId: todoListId'
 }
 //we will make server requests from action creators!
 
-export const addTaskAC = (title: string, todoListId: string): AddTaskACType => {
-    return {type: 'ADD_TASK', title, todoListId}
+export const addTaskAC = (title: string, todoListId: string) => {
+    return {type: 'ADD_TASK', title, todoListId} as const
 }
 
-export const changeTaskStatusAC = (taskId: string, isDone: boolean, todoListId: string): ChangeTaskStatusACType => {
-    return {type: 'CHANGE_TASK_STATUS', taskId, isDone, todoListId}
+export const changeTaskStatusAC = (taskId: string, isDone: boolean, todoListId: string) => {
+    return {type: 'CHANGE_TASK_STATUS', taskId, isDone, todoListId} as const
 }
 
-export const changeTaskTitleAC = (taskId: string, title: string, todoListId: string): ChangeTaskTitleACType => {
-    return {type: 'CHANGE_TASK_TITLE', taskId, title, todoListId}
+export const changeTaskTitleAC = (taskId: string, title: string, todoListId: string) => {
+    return {type: 'CHANGE_TASK_TITLE', taskId, title, todoListId} as const
 }
