@@ -1,4 +1,4 @@
-import React, {useReducer, useState} from 'react';
+import React, {useReducer} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {v1} from "uuid";
@@ -33,7 +33,7 @@ export type TasksStateType = {
 
 export type FilterValuesType = "all" | "completed" | "active";
 
-function App() {
+function AppWithReducers() {
     const todoListId1 = v1()
     const todoListId2 = v1()
 
@@ -84,6 +84,9 @@ function App() {
         const id = v1()
         dispatchTodoLists(addTodoListAC(title, id))
         dispatchTasks(addTodoListAC(title, id))
+        //let action = addTodoListAC(title, id) // we generate one id in AC
+        //dispatchTodoLists(action)
+        //dispatchTasks(action)
     }
 
     function changeTodoListTitle(todoListId: string, title: string) {
@@ -147,4 +150,4 @@ function App() {
     );
 }
 
-export default App;
+export default AppWithReducers;
