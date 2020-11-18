@@ -1,4 +1,4 @@
-import {TasksStateType, TaskType} from "../AppWithReducers";
+import {TasksStateType, TaskType, TodoListType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
 
@@ -8,7 +8,9 @@ export type ActionType = ReturnType<typeof removeTaskAC> |
     ReturnType<typeof changeTaskTitleAC> |
     AddTodolistActionType | RemoveTodolistActionType
 
-export const tasksReducer = (state: TasksStateType, action: ActionType): TasksStateType => {
+let initialState: TasksStateType = {}   //associative array
+
+export const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK':
             return {
@@ -45,8 +47,7 @@ export const tasksReducer = (state: TasksStateType, action: ActionType): TasksSt
             return stateCopy
         }
         default:
-            throw new Error("I don't understand this type")  //soon it will be fixed to 'return state'
-
+            return state
     }
 }
 //if we add empty cases there will be a TypeScript error: Object (inside test file) is possibly undefined.
