@@ -30,30 +30,9 @@ export type TasksStateType = {
 export type FilterValuesType = "all" | "completed" | "active";
 
 function AppWithReducers() {
-    //We don't need the old initial state any more because now it's in reducers:
-    // const todoListId1 = v1()
-    // const todoListId2 = v1()
-
-    // const [todoLists, dispatchTodoLists] = useReducer(todoListReducer, [
-    //     {id: todoListId1, title: "What to learn", filter: "all"},
-    //     {id: todoListId2, title: "What to buy", filter: "all"}
-    // ])
-    //
-    // const [tasks, dispatchTasks] = useReducer(tasksReducer, {
-    //     [todoListId1]: [
-    //         {id: v1(), title: "HTML", isDone: true},
-    //         {id: v1(), title: "CSS", isDone: true},
-    //         {id: v1(), title: "JS", isDone: false}
-    //     ],
-    //     [todoListId2]: [
-    //         {id: v1(), title: "Milk", isDone: true},
-    //         {id: v1(), title: "Beer", isDone: true},
-    //         {id: v1(), title: "Fish", isDone: false}
-    //     ],
-    // })
 
     let todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todoLists)
-    //by default useSelector receives state
+    //useSelector receives state by default
     let tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
     let dispatch = useDispatch()
 
