@@ -1,5 +1,5 @@
 import {v1} from "uuid";
-import {AddTodolistActionType, RemoveTodolistActionType} from "./todolist-reducer";
+import {addTodoListAC, removeTodoListAC} from "./todolist-reducer";
 
 export type TaskType = {
     id: string
@@ -11,15 +11,16 @@ export type TasksStateType = {
     [key: string]: Array<TaskType>
 }
 
-export type ActionType = ReturnType<typeof removeTaskAC> |
+export type TaskActionType = ReturnType<typeof removeTaskAC> |
     ReturnType<typeof addTaskAC> |
     ReturnType<typeof changeTaskStatusAC> |
     ReturnType<typeof changeTaskTitleAC> |
-    AddTodolistActionType | RemoveTodolistActionType
+    ReturnType<typeof removeTodoListAC> |
+    ReturnType<typeof addTodoListAC>
 
 let initialState: TasksStateType = {}   //associative array
 
-export const tasksReducer = (state: TasksStateType = initialState, action: ActionType): TasksStateType => {
+export const tasksReducer = (state: TasksStateType = initialState, action: TaskActionType): TasksStateType => {
     switch (action.type) {
         case 'REMOVE_TASK':
             return {
