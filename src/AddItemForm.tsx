@@ -7,6 +7,7 @@ type AddItemFormPropsType = {
 }
 
 export function AddItemForm(props: AddItemFormPropsType) {
+    console.log('AddItemForm is called')
     //local state which is necessary only for this component
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
@@ -16,7 +17,9 @@ export function AddItemForm(props: AddItemFormPropsType) {
     }
 
     const onAddItemKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null)
+        }
         if (e.key === "Enter") {
             onAddItemClick()
         }
