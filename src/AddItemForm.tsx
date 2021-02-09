@@ -6,7 +6,7 @@ type AddItemFormPropsType = {
     addItem: (title: string) => void
 }
 
-export function AddItemForm(props: AddItemFormPropsType) {
+export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     console.log('AddItemForm is called')
     //local state which is necessary only for this component
     const [title, setTitle] = useState<string>("")
@@ -48,4 +48,4 @@ export function AddItemForm(props: AddItemFormPropsType) {
             <IconButton color={"primary"} onClick={onAddItemClick}><AddBox/></IconButton>
         </div>
     )
-}
+})

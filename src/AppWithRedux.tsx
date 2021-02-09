@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {v1} from "uuid";
@@ -10,15 +10,15 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 
 function AppWithRedux() {
-
+    console.log('AppWithRedux is called')
     let todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todoLists)
 
     let dispatch = useDispatch()
 
-    function addTodoList(title: string) {
+    const addTodoList = useCallback((title: string) => {
         const id = v1()
         dispatch(addTodoListAC(title, id))      //only 1 needed
-    }
+    }, [dispatch])
 
     return (
         <div className="App">
@@ -42,7 +42,7 @@ function AppWithRedux() {
                         todoLists.map(tl => {
 
                             return (
-                                <Grid item>
+                                <Grid item key={tl.id}>
                                     <Paper elevation={5} style={{padding: "15px"}}>
                                         <TodoList
                                             key={tl.id}
