@@ -29,3 +29,5 @@ yarn-error.log*
 src/MondayExam
 src/TodolistExperiment
 src/.idea
+
+config.ts
