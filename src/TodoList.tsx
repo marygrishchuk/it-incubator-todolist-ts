@@ -4,7 +4,7 @@ import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TaskType} from "./state/tasks-reducer";
+import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {
     changeTodoListFilterAC,
     changeTodoListTitleAC,
@@ -13,6 +13,7 @@ import {
 } from "./state/todolist-reducer";
 import {AppRootStateType} from "./state/store";
 import {Task} from "./Task";
+import {TaskStatuses, TaskType} from "./api/todolist-api";
 
 type PropsType = {
     id: string
@@ -27,10 +28,10 @@ export const TodoList = React.memo((props: PropsType) => {
     let tasksForToDoList = tasks
 
     if (props.filter === "completed") {
-        tasksForToDoList = tasks.filter(t => t.isDone === true)
+        tasksForToDoList = tasks.filter(t => t.status === TaskStatuses.Completed)
     }
     if (props.filter === "active") {
-        tasksForToDoList = tasks.filter(t => t.isDone === false)
+        tasksForToDoList = tasks.filter(t => t.status === TaskStatuses.New)
     }
 
     let dispatch = useDispatch()
@@ -58,8 +59,8 @@ export const TodoList = React.memo((props: PropsType) => {
     const onRemoveTaskClick = useCallback((taskId: string) => {
         dispatch(removeTaskAC(taskId, props.id))
     }, [dispatch, props.id])
-    const changeTaskStatus = useCallback((taskId: string, isDone: boolean) => {
-        dispatch(changeTaskStatusAC(taskId, isDone, props.id))
+    const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses) => {
+        dispatch(changeTaskStatusAC(taskId, status, props.id))
     }, [dispatch, props.id])
     const changeTaskTitle = useCallback((taskId: string, title: string) => {
         dispatch(changeTaskTitleAC(taskId, title, props.id))

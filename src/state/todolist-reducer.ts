@@ -1,3 +1,5 @@
+import {TodolistType} from "../api/todolist-api";
+
 export type todoListActionType = ReturnType<typeof removeTodoListAC> |
     ReturnType<typeof addTodoListAC> |
     ReturnType<typeof changeTodoListTitleAC> |
@@ -5,22 +7,20 @@ export type todoListActionType = ReturnType<typeof removeTodoListAC> |
 
 export type FilterValuesType = "all" | "completed" | "active";
 
-export type TodoListType = {
-    id: string
-    title: string
+export type TodolistDomainType = TodolistType & {
     filter: FilterValuesType
 }
 
-let initialState: Array<TodoListType> = []
+let initialState: Array<TodolistDomainType> = []
 
-export const todoListReducer = (state: Array<TodoListType> = initialState, action: todoListActionType): Array<TodoListType> => {
+export const todoListReducer = (state: Array<TodolistDomainType> = initialState, action: todoListActionType): Array<TodolistDomainType> => {
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)  //filter creates new array
             //To delete the tasks of the removed todoList, tasks-reducer.ts is used
         case 'ADD-TODOLIST':
-            const newTodoList: TodoListType = {
-                id: action.todoListId, title: action.title, filter: "all"
+            const newTodoList: TodolistDomainType = {
+                id: action.todoListId, title: action.title, filter: "all", addedDate: "", order: 0
             }
             return [newTodoList, ...state]
         case 'CHANGE-TODOLIST-TITLE':

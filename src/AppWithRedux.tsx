@@ -5,13 +5,13 @@ import {v1} from "uuid";
 import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {addTodoListAC, TodoListType} from "./state/todolist-reducer";
+import {addTodoListAC, TodolistDomainType} from "./state/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./state/store";
 
 function AppWithRedux() {
     console.log('AppWithRedux is called')
-    let todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todoLists)
+    let todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todoLists)
 
     let dispatch = useDispatch()
 

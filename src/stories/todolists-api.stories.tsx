@@ -146,10 +146,13 @@ export const UpdateTaskStatus = () => {
     }
 
     return <div> {JSON.stringify(state)}
-        <div><input placeholder="todolistId" value={todolistId} onChange={(e => setTodolistId(e.currentTarget.value))}/>
+        <div>
+            <input placeholder="todolistId" value={todolistId} onChange={(e => setTodolistId(e.currentTarget.value))}/>
             <input placeholder="taskId" value={taskId} onChange={(e => setTaskId(e.currentTarget.value))}/>
             <input placeholder="title" value={title} onChange={(e => setTitle(e.currentTarget.value))}/>
-            <input placeholder="status" value={status} onChange={(e => setStatus(+e.currentTarget.value))}/></div>
+            <label> status:</label><input placeholder="status" type={'number'} value={status}
+                                        onChange={(e => setStatus(+e.currentTarget.value))}/>
+        </div>
         <button onClick={updateTaskStatus}>update task status (number)</button>
     </div>
 }
