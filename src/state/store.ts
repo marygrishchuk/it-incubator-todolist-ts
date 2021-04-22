@@ -1,6 +1,7 @@
 import {tasksReducer} from './tasks-reducer';
-import {combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {todoListReducer} from "./todolist-reducer";
+import thunk from "redux-thunk";
 
 // while uniting reducers with combineReducers,
 // we create the structure of our single state object
@@ -9,7 +10,7 @@ const rootReducer = combineReducers({  //this is the state!
     todoLists: todoListReducer
 })
 // explicit store creation
-export const store = createStore(rootReducer);
+export const store = createStore(rootReducer, applyMiddleware(thunk));
 // automatic type definition for the entire state
 export type AppRootStateType = ReturnType<typeof rootReducer>
 
