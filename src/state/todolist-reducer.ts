@@ -1,6 +1,5 @@
 import {todolistAPI, TodolistType} from "../api/todolist-api";
 import {Dispatch} from "redux";
-import {changeTaskTitleAC} from "./tasks-reducer";
 
 export type todoListActionType = ReturnType<typeof removeTodoListAC> |
     ReturnType<typeof addTodoListAC> |

@@ -1,7 +1,7 @@
 import {
     addTodoListAC,
     FilterValuesType,
-    removeTodoListAC,
+    removeTodoListAC, setTodolistsAC,
     TodolistDomainType,
     todoListReducer
 } from './todolist-reducer';
@@ -28,12 +28,12 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-    let newTodolistTitle = "New Todolist";
+    let newTodolist = {id: "todolistId3", title: "New Todolist", addedDate: "", order: 0}
 
-    const endState = todoListReducer(startState, addTodoListAC(newTodolistTitle, v1()))
+    const endState = todoListReducer(startState, addTodoListAC(newTodolist))
 
     expect(endState.length).toBe(3);
-    expect(endState[0].title).toBe(newTodolistTitle);
+    expect(endState[0].title).toBe(newTodolist.title);
 });
 
 test('correct todolist should change its name', () => {
@@ -64,4 +64,21 @@ test('correct filter of todolist should be changed', () => {
 
     expect(endState[0].filter).toBe("all");
     expect(endState[1].filter).toBe(newFilter);
+});
+
+test('todolists from server should be set into state', () => {
+    let emptyState: Array<TodolistDomainType> = []
+    let newTodolists = [
+        {id: "todolistId1", title: "Work", addedDate: "", order: 0},
+        {id: "todolistId2", title: "School", addedDate: "", order: 0},
+        {id: "todolistId3", title: "Health", addedDate: "", order: 0},
+    ]
+
+    const endState = todoListReducer(emptyState, setTodolistsAC(newTodolists));
+
+    expect(endState[0].filter).toBe("all");
+    expect(endState[1].filter).toBe("all");
+    expect(endState[0].title).toBe("Work");
+    expect(endState[1].title).toBe("School");
+    expect(endState[2].title).toBe("Health");
 });
