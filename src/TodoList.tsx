@@ -4,12 +4,12 @@ import {EditableSpan} from "./EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskTC, fetchTasksTC, removeTaskTC, updateTaskStatusTC, updateTaskTitleTC} from "./state/tasks-reducer";
+import {addTaskTC, fetchTasksTC, removeTaskTC, updateTaskTC} from "./state/tasks-reducer";
 import {
     changeTodoListFilterAC,
-    updateTodolistTitleTC,
     FilterValuesType,
-    removeTodoListTC
+    removeTodoListTC,
+    updateTodolistTitleTC
 } from "./state/todolist-reducer";
 import {AppRootStateType} from "./state/store";
 import {Task} from "./Task";
@@ -67,10 +67,10 @@ export const TodoList = React.memo((props: PropsType) => {
         dispatch(removeTaskTC(taskId, props.id))
     }, [dispatch, props.id])
     const changeTaskStatus = useCallback((taskId: string, status: TaskStatuses) => {
-        dispatch(updateTaskStatusTC(taskId, status, props.id))
+        dispatch(updateTaskTC(taskId, {status}, props.id))
     }, [dispatch, props.id])
     const changeTaskTitle = useCallback((taskId: string, title: string) => {
-        dispatch(updateTaskTitleTC(taskId, title, props.id))
+        dispatch(updateTaskTC(taskId, {title}, props.id))
     }, [dispatch, props.id])
 
     return (
