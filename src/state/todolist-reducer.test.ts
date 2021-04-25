@@ -15,8 +15,8 @@ beforeEach(() => {
     todolistId1 = v1();
     todolistId2 = v1();
     startState = [
-        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0},
-        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0}
+        {id: todolistId1, title: "What to learn", filter: "all", addedDate: "", order: 0, entityStatus: "succeeded"},
+        {id: todolistId2, title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "succeeded"}
     ]
 })
 
@@ -28,7 +28,7 @@ test('correct todolist should be removed', () => {
 });
 
 test('correct todolist should be added', () => {
-    let newTodolist = {id: "todolistId3", title: "New Todolist", addedDate: "", order: 0}
+    let newTodolist = {id: "todolistId3", title: "New TodoList", addedDate: "", order: 0}
 
     const endState = todoListReducer(startState, addTodoListAC(newTodolist))
 
@@ -37,7 +37,7 @@ test('correct todolist should be added', () => {
 });
 
 test('correct todolist should change its name', () => {
-    let newTodolistTitle = "New Todolist";
+    let newTodolistTitle = "New TodoList";
 
     const action = {
         type: 'CHANGE-TODOLIST-TITLE' as const, //as const replaces the type import for this action

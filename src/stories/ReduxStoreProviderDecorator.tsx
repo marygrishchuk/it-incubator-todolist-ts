@@ -6,16 +6,18 @@ import {tasksReducer} from '../state/tasks-reducer'
 import {todoListReducer} from '../state/todolist-reducer'
 import {v1} from 'uuid'
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {appReducer} from "../app/app-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
-    todoLists: todoListReducer
+    todoLists: todoListReducer,
+    app: appReducer
 })
 
 const initialGlobalState: AppRootStateType = {
     todoLists: [
-        {id: "todolistId1", title: "What to learn", filter: "all", addedDate: "", order: 0},
-        {id: "todolistId2", title: "What to buy", filter: "all", addedDate: "", order: 0}
+        {id: "todolistId1", title: "What to learn", filter: "all", addedDate: "", order: 0, entityStatus: "succeeded"},
+        {id: "todolistId2", title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "succeeded"}
     ],
     tasks: {
         ["todolistId1"]: [
@@ -27,7 +29,7 @@ const initialGlobalState: AppRootStateType = {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             },
             {
                 id: v1(), title: "JS", status: TaskStatuses.Completed,
@@ -37,7 +39,7 @@ const initialGlobalState: AppRootStateType = {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             }
         ],
         ["todolistId2"]: [
@@ -49,7 +51,7 @@ const initialGlobalState: AppRootStateType = {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             },
             {
                 id: v1(), title: "React Book", status: TaskStatuses.Completed,
@@ -59,9 +61,13 @@ const initialGlobalState: AppRootStateType = {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             }
         ]
+    },
+    app: {
+        status: "succeeded",
+        error: null
     }
 };
 

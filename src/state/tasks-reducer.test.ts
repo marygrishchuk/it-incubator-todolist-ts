@@ -15,7 +15,7 @@ beforeEach(() => {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             },
             {
                 id: "2", title: "JS", status: TaskStatuses.Completed,
@@ -25,7 +25,7 @@ beforeEach(() => {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             },
             {
                 id: "3", title: "React", status: TaskStatuses.New,
@@ -35,7 +35,7 @@ beforeEach(() => {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             }
         ],
         "todoListId2": [
@@ -47,7 +47,7 @@ beforeEach(() => {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             },
             {
                 id: "2", title: "milk", status: TaskStatuses.Completed,
@@ -57,7 +57,7 @@ beforeEach(() => {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             },
             {
                 id: "3", title: "tea", status: TaskStatuses.New,
@@ -67,7 +67,7 @@ beforeEach(() => {
                 description: '',
                 order: 0,
                 priority: TaskPriorities.Low,
-                startDate: ''
+                startDate: '', entityStatus: "succeeded"
             }
         ],
     }
@@ -124,7 +124,7 @@ test('the title of the specified task should be changed', () => {
 });
 
 test('new array for tasks should be added when a new todolist is added', () => {
-    let newTodolist = {id: "todoListId3", title: "New Todolist", addedDate: "", order: 0}
+    let newTodolist = {id: "todoListId3", title: "New TodoList", addedDate: "", order: 0}
 
     const endState = tasksReducer(startState, addTodoListAC(newTodolist))
 

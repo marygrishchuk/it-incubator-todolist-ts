@@ -1,12 +1,24 @@
 import React, {useCallback, useEffect} from 'react';
 import './App.css';
-import {TodoList} from "./TodoList";
-import {AddItemForm} from "./AddItemForm";
-import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
+import {TodoList} from "../components/TodoList/TodoList";
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
+import {
+    AppBar,
+    Button,
+    Container,
+    Grid,
+    IconButton,
+    LinearProgress,
+    Paper,
+    Toolbar,
+    Typography
+} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {addTodoListTC, fetchTodolistsTC, TodolistDomainType} from "./state/todolist-reducer";
+import {addTodoListTC, fetchTodolistsTC, TodolistDomainType} from "../state/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "./state/store";
+import {AppRootStateType} from "../state/store";
+import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
+import {RequestStatusType} from "./app-reducer";
 
 function AppWithRedux() {
     console.log('AppWithRedux is called')
@@ -16,6 +28,7 @@ function AppWithRedux() {
     }, [])
 
     let todoLists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todoLists)
+    let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
     let dispatch = useDispatch()
 
@@ -25,6 +38,7 @@ function AppWithRedux() {
 
     return (
         <div className="App">
+            <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu">
@@ -35,6 +49,7 @@ function AppWithRedux() {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
+                {status === 'loading' && <LinearProgress color="secondary" />}
             </AppBar>
             <Container fixed>
                 <Grid container style={{padding: "15px"}}>
@@ -52,6 +67,7 @@ function AppWithRedux() {
                                             id={tl.id}
                                             title={tl.title}
                                             filter={tl.filter}
+                                            entityStatus={tl.entityStatus}
                                         />
                                     </Paper>
                                 </Grid>
