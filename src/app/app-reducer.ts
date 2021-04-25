@@ -8,9 +8,9 @@ const initialState = {
     error: null as string | null
 }
 
-type InitialStateType = typeof initialState
+export type InitialAppStateType = typeof initialState
 
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const appReducer = (state: InitialAppStateType = initialState, action: ActionsType): InitialAppStateType => {
     switch (action.type) {
         case 'APP/SET-STATUS':
             return {...state, status: action.status}

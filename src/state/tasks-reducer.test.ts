@@ -1,4 +1,12 @@
-import {addTaskAC, removeTaskAC, setTasksAC, tasksReducer, TasksStateType, updateTaskAC} from "./tasks-reducer";
+import {
+    addTaskAC,
+    changeTaskEntityStatusAC,
+    removeTaskAC,
+    setTasksAC,
+    tasksReducer,
+    TasksStateType,
+    updateTaskAC
+} from "./tasks-reducer";
 import {addTodoListAC, removeTodoListAC, setTodolistsAC} from "./todolist-reducer";
 import {TaskPriorities, TaskStatuses, TaskType} from "../api/todolist-api";
 
@@ -202,4 +210,13 @@ test('tasks should be added to a correct empty todolist', () => {
     expect(endState["todoListId1"].length).toBe(2);
     expect(endState["todoListId2"].length).toBe(0);
     expect(endState["todoListId3"].length).toBe(0);
+});
+
+test('the entityStatus of the specified task should be changed', () => {
+    const action = changeTaskEntityStatusAC("2", "todoListId2", "loading")
+
+    const endState = tasksReducer(startState, action)
+
+    expect(endState["todoListId2"][1].entityStatus).toBe("loading");
+    expect(endState["todoListId1"][1].entityStatus).toBe("succeeded");
 });
