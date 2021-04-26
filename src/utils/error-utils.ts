@@ -17,5 +17,5 @@ export const handleServerNetworkError = (error: {message: string}, dispatch: Err
     dispatch(setAppStatusAC('failed'))
 }
 
-type ErrorUtilsDispatchType = Dispatch<ReturnType<typeof setAppStatusAC> |
+export type ErrorUtilsDispatchType = Dispatch<ReturnType<typeof setAppStatusAC> |
     ReturnType<typeof setAppErrorAC>>

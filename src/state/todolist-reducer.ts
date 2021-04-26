@@ -91,7 +91,6 @@ export const removeTodoListTC = (todoListId: string) => (dispatch: Dispatch) => 
             if (res.data.resultCode === 0) {
                 dispatch(removeTodoListAC(todoListId))
                 dispatch(setAppStatusAC('succeeded'))
-                dispatch(changeTodolistEntityStatusAC(todoListId, 'succeeded'))
             } else {
                 handleServerAppError(res.data, dispatch)
             }

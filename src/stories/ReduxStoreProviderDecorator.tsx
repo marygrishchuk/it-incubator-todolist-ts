@@ -1,12 +1,13 @@
 import {Provider} from "react-redux";
 import {AppRootStateType} from "../state/store";
 import React from "react";
-import {combineReducers, createStore} from 'redux'
+import {applyMiddleware, combineReducers, createStore} from 'redux'
 import {tasksReducer} from '../state/tasks-reducer'
 import {todoListReducer} from '../state/todolist-reducer'
 import {v1} from 'uuid'
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 import {appReducer} from "../app/app-reducer";
+import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
@@ -17,7 +18,7 @@ const rootReducer = combineReducers({
 const initialGlobalState: AppRootStateType = {
     todoLists: [
         {id: "todolistId1", title: "What to learn", filter: "all", addedDate: "", order: 0, entityStatus: "succeeded"},
-        {id: "todolistId2", title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "succeeded"}
+        {id: "todolistId2", title: "What to buy", filter: "all", addedDate: "", order: 0, entityStatus: "loading"}
     ],
     tasks: {
         ["todolistId1"]: [
@@ -71,7 +72,7 @@ const initialGlobalState: AppRootStateType = {
     }
 };
 
-export const storyBookStore = createStore(rootReducer, initialGlobalState);
+export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => {
     return <Provider store={storyBookStore}>{storyFn()}</Provider>
