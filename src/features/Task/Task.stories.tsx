@@ -2,10 +2,12 @@ import React from "react";
 import {action} from "@storybook/addon-actions";
 import {Task} from "./Task";
 import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
+import {ReduxStoreProviderDecorator} from "../../stories/ReduxStoreProviderDecorator";
 
 export default {
     title: 'Task Component',
-    component: Task
+    component: Task,
+    decorators: [ReduxStoreProviderDecorator]
 }
 
 const changeStatusCallback = action("Status has been changed")

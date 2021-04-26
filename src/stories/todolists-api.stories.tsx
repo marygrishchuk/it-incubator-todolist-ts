@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {TaskPriorities, TaskStatuses, todolistAPI} from "../api/todolist-api";
+import {authAPI, TaskPriorities, TaskStatuses, todolistAPI} from "../api/todolist-api";
 
 export default {
     title: 'API'
@@ -187,5 +187,60 @@ export const DeleteTask = () => {
         <div><input placeholder="todolistId" value={todolistId} onChange={(e => setTodolistId(e.currentTarget.value))}/>
             <input placeholder="taskId" value={taskId} onChange={(e => setTaskId(e.currentTarget.value))}/></div>
         <button onClick={deleteTask}>delete task</button>
+    </div>
+}
+
+export const Login = () => {
+    const [state, setState] = useState<any>(null)
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [rememberMe, setRememberMe] = useState<boolean>(false)
+
+    const login = () => {
+        authAPI.login({email, password, rememberMe})
+            .then((res) => {
+                setState(res.data)
+            }).catch(err => console.warn(err))
+    }
+
+    return <div> {JSON.stringify(state)}
+        <div><input placeholder="email" value={email} onChange={(e => setEmail(e.currentTarget.value))}/>
+            <input placeholder="password" type={'password'} value={password}
+                   onChange={(e => setPassword(e.currentTarget.value))}/>
+            <input placeholder="rememberMe" type={'checkbox'} checked={rememberMe}
+                   onChange={(e => setRememberMe(e.currentTarget.checked))}/></div>
+        <button onClick={login}>login</button>
+    </div>
+}
+
+export const GetAuthUserData = () => {
+    const [state, setState] = useState<any>(null)
+
+    const getAuthUserData = () => {
+        authAPI.me()
+            .then((res) => {
+                setState(res.data)
+            }).catch(err => console.warn(err))
+    }
+
+    return <div> {JSON.stringify(state)}
+        <br/>
+        <button onClick={getAuthUserData}>get authorized user data</button>
+    </div>
+}
+
+export const Logout = () => {
+    const [state, setState] = useState<any>(null)
+
+    const logout = () => {
+        authAPI.logout()
+            .then((res) => {
+                setState(res.data)
+            }).catch(err => console.warn(err))
+    }
+
+    return <div> {JSON.stringify(state)}
+        <br/>
+        <button onClick={logout}>log out</button>
     </div>
 }

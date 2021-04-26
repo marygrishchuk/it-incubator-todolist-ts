@@ -6,13 +6,16 @@ import {RequestStatusType} from "../../app/app-reducer";
 import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
 import {TodoList} from "../TodoList/TodoList";
+import {Redirect} from "react-router-dom";
 
 type TodolistsListPropsType = {
     demo?: boolean
 }
 export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType) => {
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
+
     useEffect(() => {
-        if (demo) return
+        if (demo || !isLoggedIn) return
         dispatch(fetchTodolistsTC())
     }, [])
 
@@ -23,6 +26,8 @@ export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType)
     const addTodoList = useCallback((title: string) => {
         dispatch(addTodoListTC(title))
     }, [dispatch])
+
+    if (!isLoggedIn) return <Redirect to={'/login'}/>
 
     return <>
         <Grid container style={{padding: "15px"}}>

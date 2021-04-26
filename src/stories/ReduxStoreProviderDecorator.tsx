@@ -8,11 +8,14 @@ import {v1} from 'uuid'
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 import {appReducer} from "../app/app-reducer";
 import thunk from "redux-thunk";
+import {HashRouter} from "react-router-dom";
+import {authReducer} from "../features/Login/auth-reducer";
 
 const rootReducer = combineReducers({
     tasks: tasksReducer,
     todoLists: todoListReducer,
-    app: appReducer
+    app: appReducer,
+    auth: authReducer
 })
 
 const initialGlobalState: AppRootStateType = {
@@ -69,11 +72,14 @@ const initialGlobalState: AppRootStateType = {
     app: {
         status: "succeeded",
         error: null
+    },
+    auth: {
+        isLoggedIn: true
     }
 };
 
 export const storyBookStore = createStore(rootReducer, initialGlobalState, applyMiddleware(thunk));
 
 export const ReduxStoreProviderDecorator = (storyFn: any) => {
-    return <Provider store={storyBookStore}>{storyFn()}</Provider>
+    return <Provider store={storyBookStore}><HashRouter>{storyFn()}</HashRouter></Provider>
 }
