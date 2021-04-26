@@ -1,5 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TextField} from "@material-ui/core";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../state/store";
+import {RequestStatusType} from "../../app/app-reducer";
 
 type EditableSpanPropsType = {
     title: string
@@ -9,6 +12,8 @@ type EditableSpanPropsType = {
 
 export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
     console.log('EditableSpan is called')
+    const requestStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
+
     const [editMode, seEditMode] = useState<boolean>(false)
     const [title, setTitle] = useState<string>(props.title)
 
@@ -16,10 +21,10 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
         !props.disabled && seEditMode(true)
     }
     const offEditMode = () => {
-        seEditMode(false)
         if (title.trim()) {
             props.changeTitle(title.trim())
         }
+        if (requestStatus === 'succeeded') seEditMode(false)
     }
     const onChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -27,10 +32,10 @@ export const EditableSpan = React.memo((props: EditableSpanPropsType) => {
 
     const onEnterKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
-            seEditMode(false)
             if (title.trim()) {
                 props.changeTitle(title.trim())
             }
+            if (requestStatus === 'succeeded') seEditMode(false)
         }
     }
 

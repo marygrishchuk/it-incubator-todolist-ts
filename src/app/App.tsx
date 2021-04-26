@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+import s from './App.module.css';
 import {AppBar, Button, Container, IconButton, LinearProgress, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {ErrorSnackbar} from "../components/ErrorSnackbar/ErrorSnackbar";
@@ -18,7 +18,7 @@ function App({demo = false}: PropsType) {
     let status = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
 
     return (
-        <div className="App">
+        <div>
             <ErrorSnackbar/>
             <AppBar position="static">
                 <Toolbar>
@@ -30,7 +30,7 @@ function App({demo = false}: PropsType) {
                     </Typography>
                     <Button color="inherit">Login</Button>
                 </Toolbar>
-                {status === 'loading' && <LinearProgress color="secondary" />}
+                {status === 'loading' && <div className={s.progress}><LinearProgress color="secondary"/></div>}
             </AppBar>
             <Container fixed>
                 <TodolistsList demo={demo}/>

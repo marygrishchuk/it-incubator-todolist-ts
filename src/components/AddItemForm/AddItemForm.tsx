@@ -1,6 +1,9 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {IconButton, TextField} from '@material-ui/core';
 import {AddBox} from "@material-ui/icons";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "../../state/store";
+import {RequestStatusType} from "../../app/app-reducer";
 
 type AddItemFormPropsType = {
     addItem: (title: string) => void
@@ -9,6 +12,7 @@ type AddItemFormPropsType = {
 
 export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     console.log('AddItemForm is called')
+    const requestStatus = useSelector<AppRootStateType, RequestStatusType>(state => state.app.status)
     //local state which is necessary only for this component
     const [title, setTitle] = useState<string>("")
     const [error, setError] = useState<string | null>(null)
@@ -29,7 +33,7 @@ export const AddItemForm = React.memo((props: AddItemFormPropsType) => {
     const onAddItemClick = () => {
         if (title.trim()) {
             props.addItem(title.trim())
-            setTitle("")
+            if (requestStatus === 'succeeded') setTitle("")
         } else {
             setError("Title is required")
         }

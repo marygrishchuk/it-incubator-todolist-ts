@@ -12,6 +12,7 @@ type TodolistsListPropsType = {
 }
 export const TodolistsList = React.memo(({demo = false}: TodolistsListPropsType) => {
     useEffect(() => {
+        if (demo) return
         dispatch(fetchTodolistsTC())
     }, [])
 
