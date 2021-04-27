@@ -55,10 +55,11 @@ function App({demo = false}: PropsType) {
                         <Menu/>
                     </IconButton>
                     <Typography variant="h6">
-                        {isLoggedIn && <Button color="inherit" onClick={logout}>Log out</Button>}
+                        <span style={{margin: '15px'}}>Notes</span>
                     </Typography>
-                    {status === 'loading' && <div className={s.progress}><LinearProgress color="secondary"/></div>}
+                    {isLoggedIn && <Button color="inherit" onClick={logout}>Log out</Button>}
                 </Toolbar>
+                {status === 'loading' && <div className={s.progress}><LinearProgress color="secondary"/></div>}
             </AppBar>
             <Container fixed>
                 <Switch>

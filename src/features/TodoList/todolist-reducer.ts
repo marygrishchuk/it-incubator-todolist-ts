@@ -1,21 +1,7 @@
-import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {todolistAPI, TodolistType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
-import {AppActionsType, RequestStatusType, setAppStatusAC} from "../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-
-export type TodoListActionType = ReturnType<typeof removeTodoListAC> |
-    ReturnType<typeof addTodoListAC> |
-    ReturnType<typeof changeTodoListTitleAC> |
-    ReturnType<typeof changeTodoListFilterAC> |
-    ReturnType<typeof setTodolistsAC> |
-    ReturnType<typeof changeTodolistEntityStatusAC>
-
-export type FilterValuesType = "all" | "completed" | "active";
-
-export type TodolistDomainType = TodolistType & {
-    filter: FilterValuesType
-    entityStatus: RequestStatusType
-}
+import {AppActionsType, RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 let initialState: Array<TodolistDomainType> = []
 
@@ -23,7 +9,7 @@ export const todoListReducer = (state: Array<TodolistDomainType> = initialState,
     switch (action.type) {
         case 'REMOVE-TODOLIST':
             return state.filter(tl => tl.id !== action.id)  //filter creates new array
-        //To delete the tasks of the removed todoList, tasks-reducer.ts is used
+        //the tasks of the removed todoList will be removed using tasks-reducer.ts
         case 'SET-TODOLISTS': {
             return action.todolists.map(tl => ({
                 ...tl,
@@ -45,12 +31,11 @@ export const todoListReducer = (state: Array<TodolistDomainType> = initialState,
 
     }
 }
-//if we add empty cases there will be a TypeScript error: Object (inside test file) is possibly undefined.
 
+//action creators
 export const removeTodoListAC = (todoListId: string) => {
     return {type: 'REMOVE-TODOLIST', id: todoListId} as const
 }
-//we will make server requests from action creators!
 
 export const addTodoListAC = (todoList: TodolistType) => {
     return {type: 'ADD-TODOLIST', todoList} as const //NEVER create IDs for new todolists in ActionCreators!
@@ -72,6 +57,7 @@ export const changeTodolistEntityStatusAC = (id: string, entityStatus: RequestSt
     return {type: 'CHANGE-TODOLIST-ENTITY-STATUS', id, entityStatus} as const
 }
 
+//thunks
 export const fetchTodolistsTC = () => (dispatch: ThunkDispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistAPI.getTodolists()
@@ -132,6 +118,22 @@ export const updateTodolistTitleTC = (todoListId: string, title: string) => (dis
         handleServerNetworkError(error, dispatch)
         dispatch(changeTodolistEntityStatusAC(todoListId, 'failed'))
     })
+}
+
+//types
+export type TodoListActionType =
+    | ReturnType<typeof removeTodoListAC>
+    | ReturnType<typeof addTodoListAC>
+    | ReturnType<typeof changeTodoListTitleAC>
+    | ReturnType<typeof changeTodoListFilterAC>
+    | ReturnType<typeof setTodolistsAC>
+    | ReturnType<typeof changeTodolistEntityStatusAC>
+
+export type FilterValuesType = "all" | "completed" | "active";
+
+export type TodolistDomainType = TodolistType & {
+    filter: FilterValuesType
+    entityStatus: RequestStatusType
 }
 
 type ThunkDispatch = Dispatch<TodoListActionType | AppActionsType>

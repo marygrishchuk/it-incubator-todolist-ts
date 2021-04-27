@@ -3,7 +3,7 @@ import {Checkbox, IconButton} from "@material-ui/core";
 import {EditableSpan} from "../../components/EditableSpan/EditableSpan";
 import {Delete} from "@material-ui/icons";
 import {TaskStatuses} from "../../api/todolist-api";
-import {TaskDomainType} from "../../state/tasks-reducer";
+import {TaskDomainType} from "./tasks-reducer";
 
 type TaskPropsType = {
     removeTask: (taskId: string) => void

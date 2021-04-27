@@ -4,13 +4,13 @@ import {EditableSpan} from "../../components/EditableSpan/EditableSpan";
 import {Button, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
-import {addTaskTC, fetchTasksTC, removeTaskTC, TaskDomainType, updateTaskTC} from "../../state/tasks-reducer";
+import {addTaskTC, fetchTasksTC, removeTaskTC, TaskDomainType, updateTaskTC} from "../Task/tasks-reducer";
 import {
     changeTodoListFilterAC,
     removeTodoListTC,
     TodolistDomainType,
     updateTodolistTitleTC
-} from "../../state/todolist-reducer";
+} from "./todolist-reducer";
 import {AppRootStateType} from "../../state/store";
 import {Task} from "../Task/Task";
 import {TaskStatuses} from "../../api/todolist-api";

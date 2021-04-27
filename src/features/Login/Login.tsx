@@ -50,18 +50,18 @@ export const Login = () => {
             <form onSubmit={formik.handleSubmit}>
                 <FormControl>
                     <FormLabel>
-                        <p>To log in get registered
+                        <p>To log in, please get registered
                             <a href={'https://social-network.samuraijs.com/'}
-                               target={'_blank'}>here
+                               target={'_blank'}> here
                             </a>
                         </p>
-                        <p>or use common test account credentials:</p>
+                        <p>or please use common test account credentials:</p>
                         <p>Email: free@samuraijs.com</p>
                         <p>Password: free</p>
                     </FormLabel>
                     <FormGroup>
                         <TextField
-                            label="Email"
+                            label="*Email"
                             margin="normal"
                             type="email"
                             {...formik.getFieldProps('email')}
@@ -71,7 +71,7 @@ export const Login = () => {
                             : null}
                         <TextField
                             type="password"
-                            label="Password"
+                            label="*Password"
                             margin="normal"
                             {...formik.getFieldProps('password')}
                         />

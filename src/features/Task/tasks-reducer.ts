@@ -1,26 +1,9 @@
-import {addTodoListAC, removeTodoListAC, setTodolistsAC} from "./todolist-reducer";
-import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../api/todolist-api";
+import {addTodoListAC, removeTodoListAC, setTodolistsAC} from "../TodoList/todolist-reducer";
+import {TaskPriorities, TaskStatuses, TaskType, todolistAPI, UpdateTaskModelType} from "../../api/todolist-api";
 import {Dispatch} from "redux";
-import {AppRootStateType} from "./store";
-import {AppActionsType, RequestStatusType, setAppStatusAC} from "../app/app-reducer";
-import {handleServerAppError, handleServerNetworkError} from "../utils/error-utils";
-
-export type TaskDomainType = TaskType & {
-    entityStatus: RequestStatusType
-}
-
-export type TasksStateType = {
-    [key: string]: Array<TaskDomainType>
-}
-
-export type TaskActionType = ReturnType<typeof removeTaskAC> |
-    ReturnType<typeof addTaskAC> |
-    ReturnType<typeof updateTaskAC> |
-    ReturnType<typeof removeTodoListAC> |
-    ReturnType<typeof addTodoListAC> |
-    ReturnType<typeof setTodolistsAC> |
-    ReturnType<typeof setTasksAC> |
-    ReturnType<typeof changeTaskEntityStatusAC>
+import {AppRootStateType} from "../../state/store";
+import {AppActionsType, RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 let initialState: TasksStateType = {}   //associative array
 
@@ -74,12 +57,11 @@ export const tasksReducer = (state: TasksStateType = initialState, action: TaskA
             return state
     }
 }
-//if we add empty cases there will be a TypeScript error: Object (inside test file) is possibly undefined.
 
+//action creators
 export const removeTaskAC = (taskId: string, todoListId: string) => {
     return {type: 'REMOVE_TASK', taskId, todoListId} as const  //if key = value, no need to write both 'todoListId: todoListId'
 }
-//we will make server requests from action creators!
 
 export const addTaskAC = (task: TaskType) => {
     return {type: 'ADD_TASK', task} as const
@@ -97,6 +79,7 @@ export const changeTaskEntityStatusAC = (taskId: string, todolistId: string, ent
     return {type: 'CHANGE-TASK-ENTITY-STATUS', taskId, todolistId, entityStatus} as const
 }
 
+//thunks
 export const fetchTasksTC = (todolistId: string) => (dispatch: ThunkDispatch) => {
     dispatch(setAppStatusAC('loading'))
     todolistAPI.getTasks(todolistId)
@@ -141,15 +124,6 @@ export const addTaskTC = (title: string, todolistId: string) => (dispatch: Thunk
     })
 }
 
-type UpdateDomainTaskModelType = {
-    deadline?: string
-    description?: string
-    priority?: TaskPriorities
-    startDate?: string
-    status?: TaskStatuses
-    title?: string
-}
-
 export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelType, todolistId: string) => {
     return (dispatch: ThunkDispatch, getState: () => AppRootStateType) => {
         const task = getState().tasks[todolistId].find(t => t.id === taskId)
@@ -181,6 +155,34 @@ export const updateTaskTC = (taskId: string, domainModel: UpdateDomainTaskModelT
             })
         }
     }
+}
+
+//types
+export type TaskDomainType = TaskType & {
+    entityStatus: RequestStatusType
+}
+
+export type TasksStateType = {
+    [key: string]: Array<TaskDomainType>
+}
+
+export type TaskActionType =
+    | ReturnType<typeof removeTaskAC>
+    | ReturnType<typeof addTaskAC>
+    | ReturnType<typeof updateTaskAC>
+    | ReturnType<typeof removeTodoListAC>
+    | ReturnType<typeof addTodoListAC>
+    | ReturnType<typeof setTodolistsAC>
+    | ReturnType<typeof setTasksAC>
+    | ReturnType<typeof changeTaskEntityStatusAC>
+
+type UpdateDomainTaskModelType = {
+    deadline?: string
+    description?: string
+    priority?: TaskPriorities
+    startDate?: string
+    status?: TaskStatuses
+    title?: string
 }
 
 type ThunkDispatch = Dispatch<TaskActionType | AppActionsType>

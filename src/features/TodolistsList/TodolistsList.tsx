@@ -1,5 +1,5 @@
 import React, {useCallback, useEffect} from "react";
-import {addTodoListTC, fetchTodolistsTC, TodolistDomainType} from "../../state/todolist-reducer";
+import {addTodoListTC, fetchTodolistsTC, TodolistDomainType} from "../TodoList/todolist-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../../state/store";
 import {RequestStatusType} from "../../app/app-reducer";

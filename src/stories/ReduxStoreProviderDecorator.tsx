@@ -2,8 +2,8 @@ import {Provider} from "react-redux";
 import {AppRootStateType} from "../state/store";
 import React from "react";
 import {applyMiddleware, combineReducers, createStore} from 'redux'
-import {tasksReducer} from '../state/tasks-reducer'
-import {todoListReducer} from '../state/todolist-reducer'
+import {tasksReducer} from '../features/Task/tasks-reducer'
+import {todoListReducer} from '../features/TodoList/todolist-reducer'
 import {v1} from 'uuid'
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 import {appReducer} from "../app/app-reducer";
