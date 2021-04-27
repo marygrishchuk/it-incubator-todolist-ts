@@ -22,11 +22,10 @@ type PropsType = {
 
 export const TodoList = React.memo(({todolist, demo = false}: PropsType) => {
     console.log('TodoList is called')
-    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     let dispatch = useDispatch()
 
     useEffect(() => {
-        if (demo || !isLoggedIn) return
+        if (demo) return
         dispatch(fetchTasksTC(todolist.id))
     }, [])
 

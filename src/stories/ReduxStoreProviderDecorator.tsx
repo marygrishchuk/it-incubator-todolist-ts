@@ -36,7 +36,7 @@ const initialGlobalState: AppRootStateType = {
                 startDate: '', entityStatus: "succeeded"
             },
             {
-                id: v1(), title: "JS", status: TaskStatuses.Completed,
+                id: v1(), title: "JS", status: TaskStatuses.New,
                 todoListId: "todolistId1",
                 addedDate: '',
                 deadline: '',
@@ -71,7 +71,8 @@ const initialGlobalState: AppRootStateType = {
     },
     app: {
         status: "succeeded",
-        error: null
+        error: null,
+        isInitialized: true
     },
     auth: {
         isLoggedIn: true

@@ -1,8 +1,7 @@
 import {Dispatch} from 'redux'
 import {AppActionsType, setAppStatusAC} from '../../app/app-reducer'
-import {authAPI, LoginParamsType, todolistAPI} from "../../api/todolist-api";
+import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
-import {addTaskAC} from "../../state/tasks-reducer";
 
 const initialState = {
     isLoggedIn: false
@@ -37,6 +36,23 @@ export const loginTC = (payload: LoginParamsType) => (dispatch: Dispatch<Actions
         handleServerNetworkError(error, dispatch)
     })
 }
+
+export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
+    dispatch(setAppStatusAC('loading'))
+    authAPI.logout()
+        .then(res => {
+            if (res.data.resultCode === 0) {
+                dispatch(setIsLoggedInAC(false))
+                dispatch(setAppStatusAC('succeeded'))
+            } else {
+                handleServerAppError(res.data, dispatch)
+            }
+        })
+        .catch((error) => {
+            handleServerNetworkError(error, dispatch)
+        })
+}
+
 
 // types
 type ActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType
