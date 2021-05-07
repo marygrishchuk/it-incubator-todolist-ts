@@ -82,7 +82,7 @@ beforeEach(() => {
 })
 
 test('correct task should be deleted from a correct array', () => {
-    const action = removeTaskAC("2", "todoListId2")
+    const action = removeTaskAC({taskId: "2",  todoListId: "todoListId2"})
 
     const endState = tasksReducer(startState, action)
 
@@ -114,7 +114,7 @@ test('correct task should be added to a correct array', () => {
 });
 
 test('the status of the specified task should be changed', () => {
-    const action = updateTaskAC("2", {status: TaskStatuses.New}, "todoListId2")
+    const action = updateTaskAC({taskId: "2", model: {status: TaskStatuses.New}, todoListId: "todoListId2"})
 
     const endState = tasksReducer(startState, action)
 
@@ -123,7 +123,7 @@ test('the status of the specified task should be changed', () => {
 });
 
 test('the title of the specified task should be changed', () => {
-    const action = updateTaskAC("2", {title: "Milkyway"}, "todoListId2")
+    const action = updateTaskAC({taskId: "2",  model: {title: "Milkyway"}, todoListId: "todoListId2"})
 
     const endState = tasksReducer(startState, action)
 
@@ -205,7 +205,7 @@ test('tasks should be added to a correct empty todolist', () => {
         "todoListId2": [],
         "todoListId1": [],
         "todoListId3": []
-    }, setTasksAC(newTasks, "todoListId1"));
+    }, setTasksAC({tasks: newTasks, todolistId: "todoListId1"}));
 
     expect(endState["todoListId1"].length).toBe(2);
     expect(endState["todoListId2"].length).toBe(0);
@@ -213,7 +213,7 @@ test('tasks should be added to a correct empty todolist', () => {
 });
 
 test('the entityStatus of the specified task should be changed', () => {
-    const action = changeTaskEntityStatusAC("2", "todoListId2", "loading")
+    const action = changeTaskEntityStatusAC({taskId: "2", todolistId: "todoListId2", entityStatus: "loading"})
 
     const endState = tasksReducer(startState, action)
 

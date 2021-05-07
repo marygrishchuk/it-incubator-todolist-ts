@@ -53,13 +53,13 @@ export const TodoList = React.memo(({todolist, demo = false}: PropsType) => {
     }, [dispatch, todolist.id])
 
     const onAllFilterClick = useCallback(() => {
-        dispatch(changeTodoListFilterAC(todolist.id, 'all'))
+        dispatch(changeTodoListFilterAC({todoListId: todolist.id, filter: 'all'}))
     }, [dispatch, todolist.id])
     const onActiveFilterClick = useCallback(() => {
-        dispatch(changeTodoListFilterAC(todolist.id, 'active'))
+        dispatch(changeTodoListFilterAC({todoListId: todolist.id, filter: 'active'}))
     }, [dispatch, todolist.id])
     const onCompletedFilterClick = useCallback(() => {
-        dispatch(changeTodoListFilterAC(todolist.id, 'completed'))
+        dispatch(changeTodoListFilterAC({todoListId: todolist.id, filter: 'completed'}))
     }, [dispatch, todolist.id])
 
     const onRemoveTaskClick = useCallback((taskId: string) => {

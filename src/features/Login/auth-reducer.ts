@@ -1,27 +1,30 @@
 import {Dispatch} from 'redux'
-import {AppActionsType, setAppStatusAC} from '../../app/app-reducer'
+import {setAppStatusAC} from '../../app/app-reducer'
 import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 const initialState = {
     isLoggedIn: false
 }
 
-export const authReducer = (state: AuthInitialStateType = initialState, action: ActionsType): AuthInitialStateType => {
-    switch (action.type) {
-        case 'login/SET-IS-LOGGED-IN':
-            return {...state, isLoggedIn: action.value}
-        default:
-            return state
+const slice = createSlice({
+    name: 'auth',
+    initialState,
+    reducers: {
+        setIsLoggedInAC(stateDraft, action: PayloadAction<boolean>) {
+            stateDraft.isLoggedIn = action.payload
+        }
     }
-}
+})
+
+export const authReducer = slice.reducer
 
 // actions
-export const setIsLoggedInAC = (value: boolean) =>
-    ({type: 'login/SET-IS-LOGGED-IN', value} as const)
+export const {setIsLoggedInAC} = slice.actions
 
 // thunks
-export const loginTC = (payload: LoginParamsType) => (dispatch: Dispatch<ActionsType>) => {
+export const loginTC = (payload: LoginParamsType) => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.login(payload)
         .then((res) => {
@@ -36,7 +39,7 @@ export const loginTC = (payload: LoginParamsType) => (dispatch: Dispatch<Actions
     })
 }
 
-export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
+export const logoutTC = () => (dispatch: Dispatch) => {
     dispatch(setAppStatusAC('loading'))
     authAPI.logout()
         .then(res => {
@@ -55,5 +58,3 @@ export const logoutTC = () => (dispatch: Dispatch<ActionsType>) => {
 
 // types
 export type AuthInitialStateType = typeof initialState
-
-type ActionsType = ReturnType<typeof setIsLoggedInAC> | AppActionsType

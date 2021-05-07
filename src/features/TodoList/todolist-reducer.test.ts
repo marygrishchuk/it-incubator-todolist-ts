@@ -87,7 +87,7 @@ test('todolists from server should be set into state', () => {
 });
 
 test('the entityStatus of the specified todoList should be changed', () => {
-    const action = changeTodolistEntityStatusAC(todolistId1, "loading")
+    const action = changeTodolistEntityStatusAC({id: todolistId1, entityStatus: "loading"})
 
     const endState = todoListReducer(startState, action)
 
