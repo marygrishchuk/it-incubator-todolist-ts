@@ -5,7 +5,9 @@ import {
     removeTodoListAC,
     setTodolistsAC,
     TodolistDomainType,
-    todoListReducer
+    todoListReducer,
+    changeTodoListTitleAC,
+    changeTodoListFilterAC
 } from './todolist-reducer';
 import {v1} from 'uuid';
 import {TodolistType} from "../../api/todolist-api";
@@ -42,11 +44,7 @@ test('correct todolist should be added', () => {
 test('correct todolist should change its name', () => {
     let newTodolistTitle = "New TodoList";
 
-    const action = {
-        type: 'CHANGE-TODOLIST-TITLE' as const, //as const replaces the type import for this action
-        id: todolistId2,
-        title: newTodolistTitle
-    };
+    const action = changeTodoListTitleAC({todoListId: todolistId2, title: newTodolistTitle})
 
     const endState = todoListReducer(startState, action);
 
@@ -57,11 +55,7 @@ test('correct todolist should change its name', () => {
 test('correct filter of todolist should be changed', () => {
     let newFilter: FilterValuesType = "completed";
 
-    const action = {
-        type: 'CHANGE-TODOLIST-FILTER' as const, //as const replaces the type import for this action
-        id: todolistId2,
-        filter: newFilter
-    };
+    const action = changeTodoListFilterAC({todoListId: todolistId2, filter: newFilter})
 
     const endState = todoListReducer(startState, action);
 
